@@ -1,0 +1,27 @@
+Scaffold-DbContext "server=127.0.0.1;uid=root;pwd=YOURPASSWORDGOESHE
+RE;database=MMABooks" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -context MMABooksContext -project MMABooksEFClasses -startupproject MMABooksEFClasses -force
+
+Scaffold-DbContext "server=127.0.0.1;uid=root;pwd=G00dlanboysmmg! RE;database=bits" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -context ScheduleBrewContext -project ScheduleBrewClasses -startupproject ScheduleBrewClasses -force
+
+trying with backtick in front of !
+Scaffold-DbContext "server=127.0.0.1;uid=maracw;pwd=G00dlanboysmmg`! RE;database=bits" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -context ScheduleBrewContext -project ScheduleBrewClasses -startupproject ScheduleBrewClasses -force
+
+trying with \ in front of !
+Scaffold-DbContext "server=127.0.0.1;uid=maracw;pwd=G00dlanboysmmg\! RE;database=bits" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -context ScheduleBrewContext -project ScheduleBrewClasses -startupproject ScheduleBrewClasses -force
+
+
+MySql.Data.EntityFrameworkCore.Design
+
+trying with ''
+Scaffold-DbContext "server=127.0.0.1;uid=maracw;pwd='G00dlanboysmmg!' RE;database=bits" Pomelo.EntityFrameworkCore.MySql -OutputDir Models -context ScheduleBrewContext -project ScheduleBrewClasses -startupproject ScheduleBrewClasses -force
+
+root@localhost:3306
+
+Scaffold-DbContext "server=127.0.0.1;uid=root;pwd=YOURPASSWORD;database=MMABooks" MySql.Data.EntityFrameworkCore -OutputDir Models -context MMABooksContext -project MMABooksEFClasses -startupproject MMABooksEFClasses -force
+
+dotnet tool install --global dotnet-ef
+
+
+dotnet ef dbcontext scaffold "server=127.0.0.1;uid=root;pwd=G00dlanboysmmg!;database=bits" Pomelo.EntityFrameworkCore.MySql --output-dir Models --context ScheduleBrewContext --project ScheduleBrewClasses --startup project ScheduleBrewClasses --force
+
+C:\Users\marac\source\repos\ScheduleABrew\ScheduleBrewClasses
