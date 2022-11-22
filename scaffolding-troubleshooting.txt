@@ -24,4 +24,3 @@ dotnet tool install --global dotnet-ef
 
 dotnet ef dbcontext scaffold "server=127.0.0.1;uid=root;pwd=G00dlanboysmmg!;database=bits" Pomelo.EntityFrameworkCore.MySql --output-dir Models --context ScheduleBrewContext --project ScheduleBrewClasses --startup project ScheduleBrewClasses --force
 
-C:\Users\marac\source\repos\ScheduleABrew\ScheduleBrewClasses
