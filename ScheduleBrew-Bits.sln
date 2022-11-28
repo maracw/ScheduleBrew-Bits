@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleBrewTests", "Schedu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedulebrew-api", "schedulebrew-api\schedulebrew-api.csproj", "{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedbrew-api", "schedbrew-api\schedbrew-api.csproj", "{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
