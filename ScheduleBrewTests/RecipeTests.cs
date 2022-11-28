@@ -2,108 +2,86 @@
 using Microsoft.EntityFrameworkCore;
 using ScheduleBrewClasses;
 using ScheduleBrewClasses.Models;
+using NUnit.Framework;
+using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace ScheduleBrewTests
 {
-	public class BatchTests
+    [TestFixture]
+    public class RecipeTests
 	{
         ScheduleBrewContext context;
-        Batch batch;
-        List<Batch>? batches;
+        Recipe recipe;
+        List<Recipe>? recipes;
 
         [SetUp]
         public void Setup()
         {
             context = new ScheduleBrewContext();
-            batch = new Batch();
+            recipe = new Recipe();
         }
 
         [Test]
         public void GetAllTest()
         {
-            batches = context.Batches.OrderBy(b => b.ScheduledStartDate).ToList();
-            Assert.That(batches.Count, Is.EqualTo(3));
-            Assert.AreEqual(1, batches[0].RecipeId);
-            PrintAll(batches);
-        }
-        [Test]
-        public void GetByPrimaryKeyTest()
-        {
-            batch = context.Batches.Find(1);
-            Assert.IsNotNull(batch);
-            Assert.AreEqual(5, batch.Volume);
-            Assert.That(batch.Volume, Is.EqualTo(5));
-            Console.WriteLine(batch);
-
+            recipes = context.Recipes.OrderBy(b => b.RecipeId).ToList();
+            Assert.That(recipes.Count, Is.EqualTo(4));
+            Assert.That(recipes[0].Name, Is.EqualTo("Fuzzy Tales Juicy IPA"));
+            PrintAll(recipes);
         }
 
         [Test]
-        public void GetBatchByDate()
+        public void GetRecipeByFullName()
         {
-            DateTime date = new DateTime(2020,04,01);
-            batches = context.Batches.Where(b => b.ScheduledStartDate == date).ToList();
-            Assert.That(batches.Count, Is.EqualTo(3));
-            DateTime date2 = new DateTime(2021, 04, 01);
-            batches = context.Batches.Where(b => b.ScheduledStartDate >= date2).ToList();
-            Assert.That(batches.Count, Is.EqualTo(0));
+            string name = "Cascade Orange Pale Ale";
+            recipes = context.Recipes.Where(r=>r.Name.Contains(name)).ToList();
+            Assert.That(recipes.Count, Is.EqualTo(1));
+            Assert.That(recipes[0].RecipeId, Is.EqualTo(3));
+            //Assert.That(recipes[0].Name, Is.EqualTo("Fuzzy Tales Juicy IPA"));
+            PrintAll(recipes);
         }
 
         [Test]
-        public void UpdateBatchDateByID()
+        public void GetRecipeByPartialName()
         {
-            batch = context.Batches.Find(2);
-            DateTime date = new DateTime(2020, 05, 01);
-            batch.ScheduledStartDate = date;
-            context.Update(batch);
-            context.SaveChanges();
-
-            Assert.That(batch.ScheduledStartDate, Is.EqualTo(date));
-            Console.WriteLine(batch);
-            
-            DateTime date2 = new DateTime(2020, 04, 01);
-            batches = context.Batches.Where(b => b.ScheduledStartDate == date2).ToList();
-            Assert.That(batches.Count, Is.EqualTo(2));
-            PrintAll(batches);
+            string name = "Cascade";
+            recipes = context.Recipes.Where(r => r.Name.Contains(name)).ToList();
+            Assert.That(recipes.Count, Is.EqualTo(1));
+            Assert.That(recipes[0].RecipeId, Is.EqualTo(3));
+            PrintAll(recipes);
         }
 
+        /* ScheduleABrew page does not allow users to create, update, or delete recipes*/
+
+
+        /*Test for user to see all batches by recipe name*/
+               
         [Test]
-        public void GetBatchByDateRange()
+        public void GetWithBatchesByRecipeName()
         {
-            DateTime date1 = new DateTime(2020, 04, 15);
-            DateTime date2 = new DateTime(2021, 05, 15);
-            batches = context.Batches.Where(b => b.ScheduledStartDate > date1 && b.ScheduledStartDate < date2).ToList();
-            Assert.That(batches.Count, Is.EqualTo(1));
-            PrintAll(batches);
+            // get the recipe by searching name
+            //RecipeID 2 has 3 batches
+            recipe = context.Recipes.Include("Batches").Where(r => r.Name.Contains("Krampus")).SingleOrDefault();
+
+            Assert.IsNotNull(recipe);
+            Assert.AreEqual(2, recipe.RecipeId);
+            Assert.AreEqual(3, recipe.Batches.Count);
+            Console.WriteLine(recipe);
+            PrintAllBatches(recipe);
         }
 
-
-        /*Add a new Batch
-         look at validation*/
-
-        [Test]
-        public void CreateTest()
+        
+        public void PrintAll(List<Recipe> recipes)
         {
-            batch = new Batch();
-            batch.RecipeId = 2;
-            batch.EquipmentId = 1;
-            batch.Volume = 36;
-            batch.Notes = "Created in unit test";
-            context.Batches.Add(batch);
-            context.SaveChanges();
-
-            batch = context.Batches.Where(b => b.RecipeId == 2 && b.Notes == "Created in unit test" && b.Volume == 36).SingleOrDefault();
-          
-            Assert.NotNull(context.Batches.Where(b => b.RecipeId == 2 && b.Notes == "Created in unit test" && b.Volume == 36));
-            Assert.AreEqual(batch.RecipeId, 2);
-            Console.WriteLine(batch);
-
-
+            foreach (Recipe r in recipes)
+            {
+                Console.WriteLine(r);
+            }
         }
 
-        /*edit a batch's time*/
-        public void PrintAll(List<Batch> batches)
+        public void PrintAllBatches(Recipe recipe)
         {
-            foreach (Batch b in batches)
+            foreach (Batch b in recipe.Batches)
             {
                 Console.WriteLine(b);
             }

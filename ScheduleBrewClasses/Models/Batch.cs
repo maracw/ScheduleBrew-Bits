@@ -52,5 +52,10 @@ namespace ScheduleBrewClasses.Models
         public virtual ICollection<IngredientInventorySubtraction> IngredientInventorySubtractions { get; set; }
         public virtual ICollection<InventoryTransaction> InventoryTransactions { get; set; }
         public virtual ICollection<Product> Products { get; set; }
+
+        public override string ToString()
+        {
+            return "BatchID: " + BatchId + " RecipeID: " + RecipeId + " Scheduled Start Date:" + ScheduledStartDate;
+        }
     }
 }

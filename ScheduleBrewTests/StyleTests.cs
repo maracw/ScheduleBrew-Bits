@@ -8,66 +8,69 @@ using Microsoft.Extensions.FileSystemGlobbing;
 namespace ScheduleBrewTests
 {
     [TestFixture]
-    public class RecipeTests
+    public class StyleTests
 	{
         ScheduleBrewContext context;
-        Recipe recipe;
-        List<Recipe>? recipes;
+        Style style;
+        List<Style>? styles;
 
         [SetUp]
         public void Setup()
         {
             context = new ScheduleBrewContext();
-            recipe = new Recipe();
+            style = new Style();
         }
 
         [Test]
         public void GetAllTest()
         {
-            recipes = context.Recipes.OrderBy(b => b.RecipeId).ToList();
-            Assert.That(recipes.Count, Is.EqualTo(4));
-            Assert.That(recipes[0].Name, Is.EqualTo("Fuzzy Tales Juicy IPA"));
-            PrintAll(recipes);
+            styles = context.Styles.OrderBy(b => b.StyleId).ToList();
+            Assert.That(styles.Count, Is.EqualTo(198));
+            Assert.That(styles[0].Name, Is.EqualTo("Fuzzy Tales Juicy IPA"));
+            //PrintAll();
         }
+        /*
 
         [Test]
         public void GetRecipeByFullName()
         {
             string name = "Cascade Orange Pale Ale";
-            recipes = context.Recipes.Where(r=>r.Name.Contains(name)).ToList();
-            Assert.That(recipes.Count, Is.EqualTo(1));
-            Assert.That(recipes[0].RecipeId, Is.EqualTo(3));
+            styles = context.Recipes.Where(r=>r.Name.Contains(name)).ToList();
+            Assert.That(styles.Count, Is.EqualTo(1));
+            Assert.That(styles[0].RecipeId, Is.EqualTo(3));
             //Assert.That(recipes[0].Name, Is.EqualTo("Fuzzy Tales Juicy IPA"));
-            PrintAll(recipes);
+            PrintAll(styles);
         }
 
         [Test]
         public void GetRecipeByPartialName()
         {
             string name = "Cascade";
-            recipes = context.Recipes.Where(r => r.Name.Contains(name)).ToList();
-            Assert.That(recipes.Count, Is.EqualTo(1));
-            Assert.That(recipes[0].RecipeId, Is.EqualTo(3));
-            PrintAll(recipes);
+            styles = context.Recipes.Where(r => r.Name.Contains(name)).ToList();
+            Assert.That(styles.Count, Is.EqualTo(1));
+            Assert.That(styles[0].RecipeId, Is.EqualTo(3));
+            PrintAll(styles);
         }
-
+        */
         /* ScheduleABrew page does not allow users to create, update, or delete recipes*/
 
 
         /*Test for user to see all batches by recipe name*/
+
+        /*
                
         [Test]
         public void GetWithBatchesByRecipeName()
         {
             // get the recipe by searching name
             //RecipeID 2 has 3 batches
-            recipe = context.Recipes.Include("Batches").Where(r => r.Name.Contains("Krampus")).SingleOrDefault();
+            style = context.Recipes.Include("Batches").Where(r => r.Name.Contains("Krampus")).SingleOrDefault();
 
-            Assert.IsNotNull(recipe);
-            Assert.AreEqual(2, recipe.RecipeId);
-            Assert.AreEqual(3, recipe.Batches.Count);
-            Console.WriteLine(recipe);
-            PrintAllBatches(recipe);
+            Assert.IsNotNull(style);
+            Assert.AreEqual(2, style.RecipeId);
+            Assert.AreEqual(3, style.Batches.Count);
+            Console.WriteLine(style);
+            PrintAllBatches(style);
         }
 
         
@@ -85,7 +88,7 @@ namespace ScheduleBrewTests
             {
                 Console.WriteLine(b);
             }
-        }
+        }*/
     }
 }
 
