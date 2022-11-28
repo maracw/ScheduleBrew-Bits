@@ -3,7 +3,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Add services to the container.
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -14,6 +13,7 @@ builder =>
 .AllowAnyHeader();
 });
 });
+
 builder.Services.AddDbContext<ScheduleBrewContext>();
 
 builder.Services.AddControllers();
@@ -29,10 +29,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseHttpsRedirection();
+
 // enables the cors policy
 app.UseCors();
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

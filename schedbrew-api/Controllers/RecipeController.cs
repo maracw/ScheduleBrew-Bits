@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScheduleBrewClasses.Models;
 
-namespace MMABooksEF_RESTfulAPI.Controllers
+namespace schedbrew_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

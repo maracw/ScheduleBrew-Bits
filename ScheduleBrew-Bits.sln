@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleBrewClasses", "Sche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleBrewTests", "ScheduleBrewTests\ScheduleBrewTests.csproj", "{79690655-ED3B-4F2C-8429-A5772631979D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedulebrew-api", "schedulebrew-api\schedulebrew-api.csproj", "{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedbrew-api", "schedbrew-api\schedbrew-api.csproj", "{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{79690655-ED3B-4F2C-8429-A5772631979D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79690655-ED3B-4F2C-8429-A5772631979D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79690655-ED3B-4F2C-8429-A5772631979D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14DBA1AF-5549-4DB6-AAA0-EF7B8CB6EA1A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E8AF0D4-3CF0-46F8-82BC-BB67E18A8CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
