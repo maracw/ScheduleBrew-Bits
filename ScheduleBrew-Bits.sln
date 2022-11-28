@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleBrewClasses", "Sche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleBrewTests", "ScheduleBrewTests\ScheduleBrewTests.csproj", "{79690655-ED3B-4F2C-8429-A5772631979D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "schedulebrew-restapi", "schedulebrew-restapi\schedulebrew-restapi.csproj", "{999EA17A-4B13-4EF9-AE92-BD5D5F4445D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{79690655-ED3B-4F2C-8429-A5772631979D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79690655-ED3B-4F2C-8429-A5772631979D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79690655-ED3B-4F2C-8429-A5772631979D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{999EA17A-4B13-4EF9-AE92-BD5D5F4445D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{999EA17A-4B13-4EF9-AE92-BD5D5F4445D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{999EA17A-4B13-4EF9-AE92-BD5D5F4445D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{999EA17A-4B13-4EF9-AE92-BD5D5F4445D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
