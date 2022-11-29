@@ -32,7 +32,7 @@ namespace schedbrew_api.Controllers
         }
         
         // GET: api/Batch/5
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public async Task<ActionResult<Batch>> GetBatch(int id)
         {
             if (_context.Batches == null)
@@ -81,26 +81,51 @@ namespace schedbrew_api.Controllers
         }
 
         //get by batch scheduled date range
-        [HttpGet("start/{date}")]
+        [HttpGet("startdate/search")]
         public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesByStartDate(DateTime start)
         {
             //start only
             //not filtering correctly
           
             var batches = await _context.Batches.Where(b => b.ScheduledStartDate>=start).ToListAsync();
+            if (batches.Count == 0)
+            {
+                return NotFound();
+            }
+
             return batches;
         }
 
-        [HttpGet("end/{date}")]
+        [HttpGet("enddate/search")]
         public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesByEndDate(DateTime end)
         {
             //end only
             //not filtering correctly
 
             var batches = await _context.Batches.Where(b => b.ScheduledStartDate <= end).ToListAsync();
+            if (batches.Count==0)
+            {
+                return NotFound();
+            }
+
             return batches;
         }
-        
+
+        [HttpGet("daterange/search")]
+        public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesByDateRange(DateTime start, DateTime end)
+        {
+            //end only
+            //not filtering correctly
+
+            var batches = await _context.Batches.Where(b => b.ScheduledStartDate <=end && b.ScheduledStartDate >= start).ToListAsync();
+            if (batches.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return batches;
+        }
+
         // POST: api/Batch
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
