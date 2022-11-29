@@ -392,17 +392,17 @@ namespace ScheduleBrewClasses.Models
 
                 entity.Property(e => e.Volume).HasColumnName("volume");
 
-                entity.HasOne(d => d.Equipment)
+                /*entity.HasOne(d => d.Equipment)
                     .WithMany(p => p.Batches)
                     .HasForeignKey(d => d.EquipmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("batch_equipment_FK");
+                    .HasConstraintName("batch_equipment_FK");*/
 
-                entity.HasOne(d => d.Recipe)
+                /*entity.HasOne(d => d.Recipe)
                     .WithMany(p => p.Batches)
                     .HasForeignKey(d => d.RecipeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("batch_recipe_FK");
+                    .HasConstraintName("batch_recipe_FK");*/
             });
 
             modelBuilder.Entity<BatchContainer>(entity =>
@@ -429,11 +429,11 @@ namespace ScheduleBrewClasses.Models
 
                 entity.Property(e => e.Volume).HasColumnName("volume");
 
-                entity.HasOne(d => d.Batch)
+                /*entity.HasOne(d => d.Batch)
                     .WithMany(p => p.BatchContainers)
                     .HasForeignKey(d => d.BatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("batch_container_batch_FK");
+                    .HasConstraintName("batch_container_batch_FK");*/
 
                 entity.HasOne(d => d.BrewContainer)
                     .WithMany(p => p.BatchContainers)
@@ -875,10 +875,10 @@ namespace ScheduleBrewClasses.Models
                     .HasColumnType("datetime")
                     .HasColumnName("transaction_date");
 
-                entity.HasOne(d => d.Batch)
+               /* entity.HasOne(d => d.Batch)
                     .WithMany(p => p.IngredientInventorySubtractions)
                     .HasForeignKey(d => d.BatchId)
-                    .HasConstraintName("ingredient_purchased_batch_FK");
+                    .HasConstraintName("ingredient_purchased_batch_FK");*/
 
                 entity.HasOne(d => d.Ingredient)
                     .WithMany(p => p.IngredientInventorySubtractions)
@@ -949,11 +949,11 @@ namespace ScheduleBrewClasses.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("inventory_transaction_app_user_FK");
 
-                entity.HasOne(d => d.Batch)
+                /*entity.HasOne(d => d.Batch)
                     .WithMany(p => p.InventoryTransactions)
                     .HasForeignKey(d => d.BatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("inventory_transaction_batch_FK");
+                    .HasConstraintName("inventory_transaction_batch_FK");*/
 
                 entity.HasOne(d => d.InventoryTransctionType)
                     .WithMany(p => p.InventoryTransactions)
@@ -1105,7 +1105,7 @@ namespace ScheduleBrewClasses.Models
                     .HasPrecision(10, 4)
                     .HasColumnName("suggested_price");
 
-                entity.HasOne(d => d.Batch)
+                /*entity.HasOne(d => d.Batch)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.BatchId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1115,7 +1115,7 @@ namespace ScheduleBrewClasses.Models
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ProductContainerSizeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("product_product_container_size_FK");
+                    .HasConstraintName("product_product_container_size_FK");*/
             });
 
             modelBuilder.Entity<ProductContainerInventory>(entity =>

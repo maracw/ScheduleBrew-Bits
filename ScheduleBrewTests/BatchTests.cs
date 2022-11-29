@@ -179,6 +179,7 @@ namespace ScheduleBrewTests
                 join recipe in context.Recipes on batch.RecipeId equals recipe.RecipeId
                 join style in context.Styles on recipe.StyleId equals style.StyleId
                 where recipe.Name.Contains(recipeName)
+                orderby recipe.Name
                 select new
                 {
                     BatchID = batch.BatchId,

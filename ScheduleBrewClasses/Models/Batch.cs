@@ -7,10 +7,10 @@ namespace ScheduleBrewClasses.Models
     {
         public Batch()
         {
-            BatchContainers = new HashSet<BatchContainer>();
-            IngredientInventorySubtractions = new HashSet<IngredientInventorySubtraction>();
-            InventoryTransactions = new HashSet<InventoryTransaction>();
-            Products = new HashSet<Product>();
+            //BatchContainers = new HashSet<BatchContainer>();
+            //IngredientInventorySubtractions = new HashSet<IngredientInventorySubtraction>();
+            //InventoryTransactions = new HashSet<InventoryTransaction>();
+            //Products = new HashSet<Product>();
         }
 
         public int BatchId { get; set; }
@@ -46,12 +46,12 @@ namespace ScheduleBrewClasses.Models
         public double? KegPrimingFactor { get; set; }
         public double? CarbonationTemp { get; set; }
 
-        public virtual Equipment Equipment { get; set; } = null!;
-        public virtual Recipe Recipe { get; set; } = null!;
-        public virtual ICollection<BatchContainer> BatchContainers { get; set; }
-        public virtual ICollection<IngredientInventorySubtraction> IngredientInventorySubtractions { get; set; }
-        public virtual ICollection<InventoryTransaction> InventoryTransactions { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        //public virtual Equipment? Equipment { get; set; } = null!;
+        //public virtual Recipe? Recipe { get; set; } = null!;
+        //public virtual ICollection<BatchContainer> BatchContainers { get; set; }
+        //public virtual ICollection<IngredientInventorySubtraction> IngredientInventorySubtractions { get; set; }
+        //public virtual ICollection<InventoryTransaction> InventoryTransactions { get; set; }
+        //public virtual ICollection<Product> Products { get; set; }
 
         public override string ToString()
         {
