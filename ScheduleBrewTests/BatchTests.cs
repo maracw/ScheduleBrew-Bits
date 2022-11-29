@@ -148,11 +148,11 @@ namespace ScheduleBrewTests
         [Test]
         public void GetBatchesJoinRecipeStyle()
         {
-
+           
                 var query =
                     from batch in context.Batches
                     join recipe in context.Recipes on batch.RecipeId equals recipe.RecipeId
-                    join style in context.Styles on recipe.StyleId equals style.StyleId 
+                    join style in context.Styles on recipe.StyleId equals style.StyleId
                     select new
                     {
                         BatchID=batch.BatchId,
@@ -169,6 +169,31 @@ namespace ScheduleBrewTests
             }
         }
 
+
+        [Test]
+        public void GetBatchesJoinRecipeStyleSearch()
+        {
+            string recipeName = "cascade";
+            var query =
+                from batch in context.Batches
+                join recipe in context.Recipes on batch.RecipeId equals recipe.RecipeId
+                join style in context.Styles on recipe.StyleId equals style.StyleId
+                where recipe.Name.Contains(recipeName)
+                select new
+                {
+                    BatchID = batch.BatchId,
+                    Sched = batch.ScheduledStartDate,
+                    Rname = recipe.Name,
+                    SName = style.Name,
+                    Cat = style.CategoryName
+
+                };
+            // I wouldn't normally print here but this lets you see what each object looks like
+            foreach (var result in query)
+            {
+                Console.WriteLine(result);
+            }
+        }
         /*edit a batch's time*/
         public void PrintAll(List<Batch> batches)
         {

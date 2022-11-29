@@ -48,7 +48,38 @@ namespace schedbrew_api.Controllers
 
             return batch;
         }
+        #region Joins
+
+        [HttpGet ("showname/search")]
+        public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesWithNames(string styleName, string recipeName)
+        {
+            //not tested
+            var query =
+            from batch in _context.Batches
+            join recipe in _context.Recipes on batch.RecipeId equals recipe.RecipeId
+            join style in _context.Styles on recipe.StyleId equals style.StyleId
+            where recipe.Name.Contains(recipeName)
+            orderby recipe.Name
+            select new
+            {
+                BatchID = batch.BatchId,
+                Sched = batch.ScheduledStartDate,
+                Rname = recipe.Name,
+                SName = style.Name,
+                Cat = style.CategoryName
+
+            };
+
+            if (_context.Batches == null)
+            {
+                return NotFound();
+            }
+            return await _context.Batches.ToListAsync();
+        }
+
+
         
+        #endregion
         // PUT: api/Batch/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("id/{id}")]
@@ -79,7 +110,7 @@ namespace schedbrew_api.Controllers
 
             return NoContent();
         }
-
+        #region search by date
         //get by batch scheduled date range
         [HttpGet("startdate/search")]
         public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesByStartDate(DateTime start)
@@ -125,6 +156,9 @@ namespace schedbrew_api.Controllers
 
             return batches;
         }
+        #endregion
+
+        #region Post/Delete
 
         // POST: api/Batch
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -174,7 +208,8 @@ namespace schedbrew_api.Controllers
 
             return NoContent();
         }
-        
+        #endregion
+
         private bool BatchExists(int id)
         {
             return (_context.Batches?.Any(e => e.BatchId == id)).GetValueOrDefault();
