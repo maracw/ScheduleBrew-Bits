@@ -32,7 +32,7 @@ namespace schedbrew_api.Controllers
         }
         
         // GET: api/Style/5
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public async Task<ActionResult<Style>> GetStyle(int id)
         {
             if (_context.Styles == null)
@@ -48,7 +48,21 @@ namespace schedbrew_api.Controllers
 
             return style;
         }
-        
+        //get by style name
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<IEnumerable<Style>>> GetRecipe(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return await _context.Styles.ToListAsync();
+            }
+            else
+            {
+                var styles = await _context.Styles.Where(s => s.Name.Contains(name)).ToListAsync();
+                return styles;
+            }
+
+        }
         // PUT: api/Recipe/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

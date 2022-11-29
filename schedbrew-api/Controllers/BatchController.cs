@@ -51,7 +51,7 @@ namespace schedbrew_api.Controllers
         
         // PUT: api/Batch/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("id/{id}")]
         public async Task<IActionResult> PutBatch(int id, Batch batch)
         {
             if (id != batch.BatchId)
@@ -79,24 +79,45 @@ namespace schedbrew_api.Controllers
 
             return NoContent();
         }
-        /*
-        // POST: api/Recipe
+
+        //get by batch scheduled date range
+        [HttpGet("start/{date}")]
+        public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesByStartDate(DateTime start)
+        {
+            //start only
+            //not filtering correctly
+          
+            var batches = await _context.Batches.Where(b => b.ScheduledStartDate>=start).ToListAsync();
+            return batches;
+        }
+
+        [HttpGet("end/{date}")]
+        public async Task<ActionResult<IEnumerable<Batch>>> GetBatchesByEndDate(DateTime end)
+        {
+            //end only
+            //not filtering correctly
+
+            var batches = await _context.Batches.Where(b => b.ScheduledStartDate <= end).ToListAsync();
+            return batches;
+        }
+        
+        // POST: api/Batch
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<ActionResult<Batch>> PostBatch(Batch batch)
         {
-            if (_context.Recipes == null)
+            if (_context.Batches == null)
             {
-                return Problem("Entity set 'ScheduleBrewContext.Recipes'  is null.");
+                return Problem("Entity set 'ScheduleBrewContext.Batches'  is null.");
             }
-            _context.Recipes.Add(recipe);
+            _context.Batches.Add(batch);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (RecipeExists(recipe.RecipeId))
+                if (BatchExists(batch.BatchId))
                 {
                     return Conflict();
                 }
@@ -106,29 +127,29 @@ namespace schedbrew_api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetRecipe", new { id = recipe.RecipeId }, recipe);
+            return CreatedAtAction("GetBatch", new { id = batch.BatchId }, batch);
         }
 
-        // DELETE: api/Recipe/5
+        // DELETE: api/Batch/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecipe(int id)
+        public async Task<IActionResult> DeleteBatch(int id)
         {
-            if (_context.Recipes == null)
+            if (_context.Batches == null)
             {
                 return NotFound();
             }
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
+            var batch = await _context.Batches.FindAsync(id);
+            if (batch == null)
             {
                 return NotFound();
             }
 
-            _context.Recipes.Remove(recipe);
+            _context.Batches.Remove(batch);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
-        */
+        
         private bool BatchExists(int id)
         {
             return (_context.Batches?.Any(e => e.BatchId == id)).GetValueOrDefault();
