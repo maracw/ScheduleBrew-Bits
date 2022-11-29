@@ -30,7 +30,7 @@ namespace schedbrew_api.Controllers
             return await _context.Recipes.ToListAsync();
         }
         //get by recipe name
-        [HttpGet("name/{name}")]
+        [HttpGet("name/search")]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe(string name)
         {
             if (String.IsNullOrEmpty(name))

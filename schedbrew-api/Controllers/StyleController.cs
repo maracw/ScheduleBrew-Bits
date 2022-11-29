@@ -49,8 +49,8 @@ namespace schedbrew_api.Controllers
             return style;
         }
         //get by style name
-        [HttpGet("name/{name}")]
-        public async Task<ActionResult<IEnumerable<Style>>> GetRecipe(string name)
+        [HttpGet("name/search")]
+        public async Task<ActionResult<IEnumerable<Style>>> GetStyleByName(string name)
         {
             if (String.IsNullOrEmpty(name))
             {
@@ -63,87 +63,27 @@ namespace schedbrew_api.Controllers
             }
 
         }
-        // PUT: api/Recipe/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStyle(int id, Style style)
+
+        //get by style category
+        [HttpGet("category/search")]
+        public async Task<ActionResult<IEnumerable<Style>>> GetStyleByCat(string category)
         {
-            if (id != style.StyleId)
+            if (String.IsNullOrEmpty(category))
             {
-                return BadRequest();
+                return await _context.Styles.ToListAsync();
+            }
+            else
+            {
+                var styles = await _context.Styles.Where(s => s.CategoryName.Contains(category)).ToListAsync();
+                return styles;
             }
 
-            _context.Entry(style).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StyleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
+
+      
         /*Users will not make new styles, delete or update styles - styles are used for searching batches only*/
-        /*
-        // POST: api/Recipe
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
-        {
-            if (_context.Recipes == null)
-            {
-                return Problem("Entity set 'ScheduleBrewContext.Recipes'  is null.");
-            }
-            _context.Recipes.Add(recipe);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (RecipeExists(recipe.RecipeId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetRecipe", new { id = recipe.RecipeId }, recipe);
-        }
-
-        // DELETE: api/Recipe/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecipe(int id)
-        {
-            if (_context.Recipes == null)
-            {
-                return NotFound();
-            }
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            _context.Recipes.Remove(recipe);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-        */
+   
+       
         private bool StyleExists(int id)
         {
             return (_context.Styles?.Any(e => e.StyleId == id)).GetValueOrDefault();
