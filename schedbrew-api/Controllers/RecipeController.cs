@@ -20,7 +20,6 @@ namespace schedbrew_api.Controllers
             _context = context;
         }
 
-        // GET: api/Recipe
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
@@ -30,25 +29,46 @@ namespace schedbrew_api.Controllers
             }
             return await _context.Recipes.ToListAsync();
         }
+        //get by recipe name or all recipes
+        [HttpGet("name/{name}")]
+        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return await _context.Recipes.ToListAsync();
+            }
+            else
+            {
+                var recipes = await _context.Recipes.Where(r => r.Name.Contains(name)).ToListAsync();
+                return recipes;
+            }
 
+            }
+        
+        //solution to use private methods
+
+        
         // GET: api/Recipe/5
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
             if (_context.Recipes == null)
             {
                 return NotFound();
             }
-            var state = await _context.Recipes.FindAsync(id);
+            var recipe = await _context.Recipes.FindAsync(id);
 
-            if (state == null)
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            return state;
+            return recipe;
         }
-
+ 
+        
+        /*Users will not make new recipes, delete or update recipes - recipes are used for searching batches only*/
+        /*
         // PUT: api/Recipe/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -128,7 +148,7 @@ namespace schedbrew_api.Controllers
 
             return NoContent();
         }
-
+        */
         private bool RecipeExists(int id)
         {
             return (_context.Recipes?.Any(e => e.RecipeId == id)).GetValueOrDefault();

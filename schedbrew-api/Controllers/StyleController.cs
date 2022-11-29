@@ -11,55 +11,55 @@ namespace schedbrew_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BatchController : ControllerBase
+    public class StyleController : ControllerBase
     {
         private readonly ScheduleBrewContext _context;
 
-        public BatchController(ScheduleBrewContext context)
+        public StyleController(ScheduleBrewContext context)
         {
             _context = context;
         }
 
-        // GET: api/Batch
+        // GET: api/Style
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Batch>>> GetBatches()
+        public async Task<ActionResult<IEnumerable<Style>>> GetStyles()
         {
-            if (_context.Recipes == null)
+            if (_context.Styles == null)
             {
                 return NotFound();
             }
-            return await _context.Batches.ToListAsync();
+            return await _context.Styles.ToListAsync();
         }
         
-        // GET: api/Batch/5
+        // GET: api/Style/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Batch>> GetBatch(int id)
+        public async Task<ActionResult<Style>> GetStyle(int id)
         {
-            if (_context.Batches == null)
+            if (_context.Styles == null)
             {
                 return NotFound();
             }
-            var batch = await _context.Batches.FindAsync(id);
+            var style = await _context.Styles.FindAsync(id);
 
-            if (batch == null)
+            if (style == null)
             {
                 return NotFound();
             }
 
-            return batch;
+            return style;
         }
-        /*
+        
         // PUT: api/Recipe/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+        public async Task<IActionResult> PutStyle(int id, Style style)
         {
-            if (id != recipe.RecipeId)
+            if (id != style.StyleId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(recipe).State = EntityState.Modified;
+            _context.Entry(style).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace schedbrew_api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RecipeExists(id))
+                if (!StyleExists(id))
                 {
                     return NotFound();
                 }
@@ -79,7 +79,8 @@ namespace schedbrew_api.Controllers
 
             return NoContent();
         }
-
+        /*Users will not make new styles, delete or update styles - styles are used for searching batches only*/
+        /*
         // POST: api/Recipe
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -129,9 +130,9 @@ namespace schedbrew_api.Controllers
             return NoContent();
         }
         */
-        private bool BatchExists(int id)
+        private bool StyleExists(int id)
         {
-            return (_context.Batches?.Any(e => e.BatchId == id)).GetValueOrDefault();
+            return (_context.Styles?.Any(e => e.StyleId == id)).GetValueOrDefault();
         }
     }
 }

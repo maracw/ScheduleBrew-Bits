@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScheduleBrewClasses.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace schedbrew_api.Controllers
 {
@@ -14,7 +13,6 @@ namespace schedbrew_api.Controllers
     [ApiController]
     public class BatchController : ControllerBase
     {
-
         private readonly ScheduleBrewContext _context;
 
         public BatchController(ScheduleBrewContext context)
@@ -22,42 +20,118 @@ namespace schedbrew_api.Controllers
             _context = context;
         }
 
-        // GET: api/values
+        // GET: api/Batch
         [HttpGet]
-        public async Task<IEnumerable<Batch>> GetBatches()
+        public async Task<ActionResult<IEnumerable<Batch>>> GetBatches()
         {
             if (_context.Batches == null)
             {
-                return (IEnumerable<Batch>)NotFound();
+                return NotFound();
             }
             return await _context.Batches.ToListAsync();
         }
-
-
-        // GET api/values/5
+        
+        // GET: api/Batch/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Batch>> GetBatch(int id)
         {
-            return "value";
-        }
+            if (_context.Batches == null)
+            {
+                return NotFound();
+            }
+            var batch = await _context.Batches.FindAsync(id);
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+            if (batch == null)
+            {
+                return NotFound();
+            }
 
-        // PUT api/values/5
+            return batch;
+        }
+        
+        // PUT: api/Batch/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> PutBatch(int id, Batch batch)
         {
+            if (id != batch.BatchId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(batch).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BatchExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        /*
+        // POST: api/Recipe
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        {
+            if (_context.Recipes == null)
+            {
+                return Problem("Entity set 'ScheduleBrewContext.Recipes'  is null.");
+            }
+            _context.Recipes.Add(recipe);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (RecipeExists(recipe.RecipeId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtAction("GetRecipe", new { id = recipe.RecipeId }, recipe);
         }
 
-        // DELETE api/values/5
+        // DELETE: api/Recipe/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteRecipe(int id)
         {
+            if (_context.Recipes == null)
+            {
+                return NotFound();
+            }
+            var recipe = await _context.Recipes.FindAsync(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            _context.Recipes.Remove(recipe);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+        */
+        private bool BatchExists(int id)
+        {
+            return (_context.Batches?.Any(e => e.BatchId == id)).GetValueOrDefault();
         }
     }
 }
-
