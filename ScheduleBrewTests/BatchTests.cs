@@ -127,6 +127,48 @@ namespace ScheduleBrewTests
             Assert.AreEqual(3, batches.Count);
             PrintAllWithRecipeName(batches);
         }
+
+        [Test]
+        public void GetBatchesJoinRecipe()
+        {
+            // get a list of objects that include the customer id, name, statecode and statename
+            var batches = context.Batches.Join(
+               context.Recipes,
+               b => b.RecipeId,
+               r => r.RecipeId,
+               (b, r) => new { b.BatchId, b.ScheduledStartDate, r.StyleId, b.RecipeId, r.Name }).OrderBy(r => r.Name).ToList();
+
+            // I wouldn't normally print here but this lets you see what each object looks like
+            foreach (var c in batches)
+            {
+                Console.WriteLine(c);
+            }
+        }
+
+        [Test]
+        public void GetBatchesJoinRecipeStyle()
+        {
+
+                var query =
+                    from batch in context.Batches
+                    join recipe in context.Recipes on batch.RecipeId equals recipe.RecipeId
+                    join style in context.Styles on recipe.StyleId equals style.StyleId 
+                    select new
+                    {
+                        BatchID=batch.BatchId,
+                        Sched = batch.ScheduledStartDate,
+                        Rname = recipe.Name,
+                        SName=style.Name,
+                        Cat = style.CategoryName
+
+                    };
+            // I wouldn't normally print here but this lets you see what each object looks like
+            foreach (var result in query)
+            {
+                Console.WriteLine(result);
+            }
+        }
+
         /*edit a batch's time*/
         public void PrintAll(List<Batch> batches)
         {
