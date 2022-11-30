@@ -1,0 +1,25 @@
+.custom-nav-text{
+    color: red;
+    font-size: 1.7em;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.custom-table1{
+    text-align: center;
+    background-color: cadetblue;
+}
+.custom-table1 th{
+    border: 0.2em solid white;
+}
+.custom-table2{
+    text-align: center;
+    background-color:lightblue"
+}
+
+p:hover, a:hover {
+    background-color: whitesmoke;
+    }
+
+#schedule-display{
+    border: .2em solid grey;
+}
