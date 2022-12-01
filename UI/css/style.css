@@ -22,14 +22,16 @@
     font-size: 4.0em;
 
 }
-.custom-table1{
+.custom-table1, th{
     text-align: center;
-    border: 0.2em solid white;
-}
-.custom-table1 th{
     border: 0.2em solid white;
     text-align: center;
 }
+
+td{
+    text-align: center;
+}
+
 .custom-table2{
     text-align: center;
     border: 0.2em solid white;

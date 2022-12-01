@@ -1,0 +1,18 @@
+        <div class="container" id="detail-area">
+          <form>
+            <formarea>
+              Recipe Name: <span id="recipe-ro"></span><br>
+              Style Name: <span id="style-ro"></span><br>
+              Scheduled Brew Date: <span id="date-ro"></span><br>
+              Container Name: <span id="equip-ro"></span><br>
+            </formarea>
+            <formarea>
+              <label>Notes:</label>
+              <input type="text">
+              
+            </formarea>
+
+          </form>
+        </div>
+
+        <td><a href="#"> Enter Batch Details</a></td>
