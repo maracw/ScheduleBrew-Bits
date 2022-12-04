@@ -102,9 +102,7 @@ class SchedulePage {
             .then(data => { 
                 this.state.batches = data;
                 console.log(this.state.batches);
-                const html=this.buildTableRow(this.state.batches[0]);
-                this.$tableBody.innerHTML=html;
-                //this.fillTable();
+                this.fillTable();
                 })
             .catch(error => {
                 alert('There was a problem getting the batches info!'); 
