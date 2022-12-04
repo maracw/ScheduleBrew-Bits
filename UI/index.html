@@ -55,9 +55,9 @@
             <div class="col-sm-4">
               <form>
                   <div class="btn-group col">
-                    <button type="button" class="btn custom-btn date-btn m-1 rounded-5">30 Days</button>
-                    <button type="button" class="btn custom-btn date-btn m-1 rounded-5">90 Days</button>
-                    <button type="button" class="btn custom-btn date-btn m-1 rounded-5">6 Months</button>
+                    <button id="search-30" type="button" class="btn custom-btn date-btn m-1 rounded-5">30 Days</button>
+                    <button id="search-90" type="button" class="btn custom-btn date-btn m-1 rounded-5">90 Days</button>
+                    <button id="search-6mo" type="button" class="btn custom-btn date-btn m-1 rounded-5">6 Months</button>
                   </div>
                   <div class="col">
                     <label name="start-date">Start</label>
@@ -89,8 +89,8 @@
                     <th>Recipe History</th>                    
                     <th>Ingredients</th>
                     <th style="border-right:.2em solid white;">Inventory</th>
-                    <th>Brew Date</th>
                     <th>Equipment Name</th>
+                    <th>Brew Date</th>
                     <th style="border-right:.2em solid white;">Brew Now</th>
                   </tr>
                 </thead>
@@ -146,7 +146,7 @@
         </div>
 
         <div class="clearfix">
-          <button class="btn btn-lg btn-outline-dark float-end m-5 p-3 rounded-5">Add Brew To Schedule</button>
+          <button id="go-to-add" class="btn btn-lg btn-outline-dark float-end m-5 p-3 rounded-5">Add Brew To Schedule</button>
         </div>
     </div>
     

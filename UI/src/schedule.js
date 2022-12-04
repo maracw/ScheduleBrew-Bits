@@ -19,7 +19,7 @@ class SchedulePage {
       //testing on swagger first
       // instance variables that the app needs but are not part of the "state" of the application
       this.server = "https://localhost:7077/api"
-      this.url = this.server + "/batch";
+      this.url = this.server + "/Batch";
   
       // instance variables related to ui elements simplifies code in other places
       
@@ -37,6 +37,8 @@ class SchedulePage {
       this.$dateStart = document.querySelector('#start-date');
       this.$dateEnd = document.querySelector('#end-date');
 
+      //table
+      this.$tableBody=document.querySelector('tbody');
       //button to go to add page
       this.$goToAdd = document.querySelector('#go-to-add');
   
@@ -58,22 +60,22 @@ class SchedulePage {
     // not all of these methods need to be bound but it was easier to do them all as I wrote them
     bindAllMethods() {
       this.FindAllBatches = this.FindAllBatches.bind(this);
+      this.buildTableRow=this.buildTableRow.bind(this);
+      this.fillTable=this.fillTable.bind(this);
     
     }
 
     //calls get and returns all batches
     //call on page load
     FindAllBatches() {
-        fetch(`${this.url}/`)
+        fetch(this.url)
         .then(response => response.json())
         .then(data => { 
-          if (data.status == 404) {
-            alert('No batches found'); 
-          }
-          else {
             this.state.batches = data;
             console.log(this.state.batches);
-          }
+            const html=this.buildTableRow(this.state.batches[0]);
+            this.$tableBody.innerHTML=html;
+            //this.fillTable();
         })
         .catch(error => {
           alert('There was a problem getting the batches info!'); 
@@ -82,8 +84,31 @@ class SchedulePage {
 
     
     //makes the html for one row
-    buildTableRow(){
+    buildTableRow(batchObj){
+        let batchId=batchObj.batchId;
+        let recipeName=batchObj.recipeId;
+        let styleName=""
+        let recipeVersion="";
+        let batchABV=batchObj.abv;
+        let batchIBU=batchObj.ibu;
+        let equipID=batchObj.equipmentId;
+        let start=batchObj.scheduledStartDate;
 
+        let htmlRow=`
+        <tr id="${batchId}">
+        <td name="recipe">${recipeName}</td>
+        <td name="style">${styleName}</td>
+        <td name="version">${recipeVersion}</td>
+        <td name="abv">${batchABV}</td>
+        <td name="ibu">${batchIBU}</td>
+        <td name="history"><button href="#" class="rounded-pill custom-btn">View</button></td>
+        <td name="ingredients"><button href="#" class="rounded-pill custom-btn">View</button></td>
+        <td name="inventory"><button href="#" class="rounded-pill custom-btn">View</button></td>
+        <td name="equip">${equipID}</td>
+        <td name="schedStart">${start}</td>
+        <td></td>
+      </tr>`
+      return htmlRow;
     }
    
   
@@ -91,14 +116,20 @@ class SchedulePage {
   
     // calls fill row on each batch in the list
     fillTable() {
-
+        let tableHtml=""
+        for(let i=0; i<this.state.batches.length; i++)
+        {
+            tableHtml+=this.buildTableRow(this.state.batches[i]);
+        }
+        this.$tableBody.innerHTML=tableHtml;
     }
   
 
   }
   
+  let schedulePage
   // instantiate the js app when the html page has finished loading
-  window.addEventListener("load", () => new SchedulePage());
+  window.addEventListener("load", () => {schedulePage=new SchedulePage()});
   
 
 
