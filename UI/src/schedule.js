@@ -80,6 +80,8 @@ class SchedulePage {
             this.state.recipes = data;
             console.log(this.state.recipes);
             //now there are recipes in the array
+        })
+        .then(s=>{
             for(let i=0; i<this.state.recipes.length; i++)
             {
                 let sId = this.state.recipes[i].styleId;
@@ -87,38 +89,33 @@ class SchedulePage {
                     .then(response => response.json())
                     .then(data => { 
                     this.state.styles.push(data); 
-                    })//end of get by styleid
+                })
                 .catch(error => {
                     alert('There was a problem getting the indiv style info!'); 
-                    })//end of catch
+                    })
                 ;
             }
-            //end of for loop
+        })
+        .then (b=>{
             fetch(this.batchURL)
-                .then(response => response.json())
-                .then(data => { 
-                    this.state.batches = data;
-                    console.log(this.state.batches);
-                    //const html=this.buildTableRow(this.state.batches[0]);
-                    //this.$tableBody.innerHTML=html;
-                    //this.fillTable();
-                    })
-                .catch(error => {
-                    alert('There was a problem getting the batches info!'); 
-                    });
-            //location 1
-            const html=this.buildTableRow(this.state.batches[0]);
-            this.$tableBody.innerHTML=html;
-        })//end of recipes fetch
-        .catch(error => {
-          alert('There was a problem getting the recipe info!'); 
-            });//end of catch for get all recipes
+            .then(response => response.json())
+            .then(data => { 
+                this.state.batches = data;
+                console.log(this.state.batches);
+                const html=this.buildTableRow(this.state.batches[0]);
+                this.$tableBody.innerHTML=html;
+                //this.fillTable();
+                })
+            .catch(error => {
+                alert('There was a problem getting the batches info!'); 
+                });
+        })
     }
 
 
     
     
-    FindStyleIndex(sId){
+    getStyleIndex(sId){
         let index=-1;
         for (let i=0; i<this.state.styles.length; i++)
         {   
