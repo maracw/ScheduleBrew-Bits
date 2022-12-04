@@ -23,6 +23,7 @@ class SchedulePage {
       this.server = "https://localhost:7077/api"
       this.batchURL = this.server + "/Batch";
       this.recipeURL = this.server +"/Recipe";
+      this.styleURL= this.server+"/Style";
   
       // instance variables related to ui elements simplifies code in other places
       
@@ -50,8 +51,10 @@ class SchedulePage {
       /* call these methods to set up the page*/
   
       this.bindAllMethods();
+      //this.FindAllStyles();
       this.FindAllRecipes();
-      this.FindAllBatches();  
+      //this.FillStylesArray();
+      //this.FindAllBatches();  
     }
     //end of constructor
 
@@ -67,9 +70,31 @@ class SchedulePage {
       this.buildTableRow=this.buildTableRow.bind(this);
       this.fillTable=this.fillTable.bind(this);
       this.FindAllRecipes=this.FindAllRecipes.bind(this);
-      this.getRecipeName=this.getRecipeName.bind(this);
-    
+      this.FindAllStyles=this.FindAllStyles.bind(this);
+      //these work with the arrays in state
+      this.getRecipeIndex=this.getRecipeIndex.bind(this);
+      this.getStyleName=this.getStyleName.bind(this);
+      this.getRecipeVersion=this.getRecipeVersion.bind(this);
+      this.FindRecipeById=this.FindRecipeById.bind(this);
+      this.FillStylesArray=this.FillStylesArray.bind(this);
     }
+
+
+    FillStylesArray(){
+        for(let i=0; i<this.state.recipes.length; i++)
+        {
+            let sId = this.state.recipes[i].styleId;
+            fetch(this.styleURL+'/id/'+sId)
+                .then(response => response.json())
+                .then(data => { 
+                 this.state.styles.push(data); 
+                })
+            .catch(error => {
+            alert('There was a problem getting the indiv style info!'); 
+        });
+        }
+    }
+
     //try just getting all the recipes first
     FindAllRecipes(){
         fetch(this.recipeURL)
@@ -77,11 +102,67 @@ class SchedulePage {
         .then(data => { 
             this.state.recipes = data;
             console.log(this.state.recipes);
-            //this.fillTable();
+            //now there are recipes in the array
+            for(let i=0; i<this.state.recipes.length; i++)
+            {
+                let sId = this.state.recipes[i].styleId;
+                fetch(this.styleURL+'/id/'+sId)
+                    .then(response => response.json())
+                    .then(data => { 
+                    this.state.styles.push(data); 
+                    })//end of get by styleid
+                .catch(error => {
+                    alert('There was a problem getting the indiv style info!'); 
+                    })//end of catch
+                ;
+            }
+            //end of for loop
+            fetch(this.batchURL)
+                .then(response => response.json())
+                .then(data => { 
+                    this.state.batches = data;
+                    console.log(this.state.batches);
+                    //const html=this.buildTableRow(this.state.batches[0]);
+                    //this.$tableBody.innerHTML=html;
+                    //this.fillTable();
+                    })
+                .catch(error => {
+                    alert('There was a problem getting the batches info!'); 
+                    });
+            //location 1
+            const html=this.buildTableRow(this.state.batches[0]);
+            this.$tableBody.innerHTML=html;
+        })//end of recipes fetch
+        .catch(error => {
+          alert('There was a problem getting the recipe info!'); 
+            });//end of catch for get all recipes
+    }
+
+    FindAllStyles(){
+        fetch(this.styleURL)
+        .then(response => response.json())
+        .then(data => { 
+            this.state.styles = data;
         })
         .catch(error => {
-          alert('There was a problem getting the batches info!'); 
+          alert('There was a problem getting the styles info!'); 
         });
+    }
+    //manually add a recipe obj to the batch obj in the batch array
+    FindRecipeById(rId, rObj){
+        fetch(this.recipeURL+'/id/'+rId)
+        .then(response => response.json())
+        .then(data => { 
+            rObj.push(data);
+            return rObj;
+        })
+        .catch(error => {
+          alert('There was a problem getting the indiv recipe info!'); 
+        });
+    }
+    FindStyleById(){
+
+
     }
     //calls get and returns all batches
     //call on page load
@@ -91,37 +172,64 @@ class SchedulePage {
         .then(data => { 
             this.state.batches = data;
             console.log(this.state.batches);
-            const html=this.buildTableRow(this.state.batches[0]);
-            this.$tableBody.innerHTML=html;
+            //const html=this.buildTableRow(this.state.batches[0]);
+            //this.$tableBody.innerHTML=html;
             //this.fillTable();
         })
         .catch(error => {
           alert('There was a problem getting the batches info!'); 
         });
       }
-
-    getRecipeName(id){
-        let name=""
+      getStyleIndex(sId){
+        let index=-1;
+        for (let i=0; i<this.state.styles.length; i++)
+        {   
+            if(sId==this.state.styles[i].styleId)
+            {
+                index=i;
+                return index;
+            }
+        }
+        return index;
+    }
+    getRecipeIndex(id){
+        let index=-1;
         for (let i=0; i<this.state.recipes.length; i++)
         {   
             if(id==this.state.recipes[i].recipeId)
             {
-                name=this.state.recipes[i].name;
+                index=i;
+                return index;
             }
         }
-        return name;
+        return index;
     }
+    
     //makes the html for one row
     buildTableRow(batchObj){
+        //all arrays should have data
+        let rId=batchObj.recipeId;
+        let sId="";
+        let rIndex=-1;
+        let sIndex=-1;
         let batchId=batchObj.batchId;
-        let recipeName= this.getRecipeName(batchObj.recipeId);
-        let styleName=""
-        let recipeVersion="";
+        let recipeName="not found";
+        let styleName="not found";
+        let recipeVersion="not found";
         let batchABV=batchObj.abv;
         let batchIBU=batchObj.ibu;
         let equipID=batchObj.equipmentId;
         let start=batchObj.scheduledStartDate;
-
+        if(this.state.recipes.length!=0){
+            rIndex=this.getRecipeIndex(rId);
+            recipeName=this.state.recipes[rIndex].name;
+            recipeVersion=this.state.recipes[rIndex].version;
+            sId=this.state.recipes[rIndex].styleId;
+        }
+        if(this.state.styles.length!=0){
+            sIndex=this.getStyleIndex(sId);
+            styleName=this.state.styles[sIndex].name;
+        }
         let htmlRow=`
         <tr id="${batchId}">
         <td name="recipe">${recipeName}</td>
