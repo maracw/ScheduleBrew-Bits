@@ -8,7 +8,9 @@ class SchedulePage {
             recipeSearch:"",
             endDate: null,
             startDate: null,
-            batches: []
+            batches: [],
+            recipes: [],
+            styles: []
           };
       /*this.state = {
         customerId: "",
@@ -19,7 +21,8 @@ class SchedulePage {
       //testing on swagger first
       // instance variables that the app needs but are not part of the "state" of the application
       this.server = "https://localhost:7077/api"
-      this.url = this.server + "/Batch";
+      this.batchURL = this.server + "/Batch";
+      this.recipeURL = this.server +"/Recipe";
   
       // instance variables related to ui elements simplifies code in other places
       
@@ -47,6 +50,7 @@ class SchedulePage {
       /* call these methods to set up the page*/
   
       this.bindAllMethods();
+      this.FindAllRecipes();
       this.FindAllBatches();  
     }
     //end of constructor
@@ -62,13 +66,27 @@ class SchedulePage {
       this.FindAllBatches = this.FindAllBatches.bind(this);
       this.buildTableRow=this.buildTableRow.bind(this);
       this.fillTable=this.fillTable.bind(this);
+      this.FindAllRecipes=this.FindAllRecipes.bind(this);
+      this.getRecipeName=this.getRecipeName.bind(this);
     
     }
-
+    //try just getting all the recipes first
+    FindAllRecipes(){
+        fetch(this.recipeURL)
+        .then(response => response.json())
+        .then(data => { 
+            this.state.recipes = data;
+            console.log(this.state.recipes);
+            //this.fillTable();
+        })
+        .catch(error => {
+          alert('There was a problem getting the batches info!'); 
+        });
+    }
     //calls get and returns all batches
     //call on page load
     FindAllBatches() {
-        fetch(this.url)
+        fetch(this.batchURL)
         .then(response => response.json())
         .then(data => { 
             this.state.batches = data;
@@ -82,11 +100,21 @@ class SchedulePage {
         });
       }
 
-    
+    getRecipeName(id){
+        let name=""
+        for (let i=0; i<this.state.recipes.length; i++)
+        {   
+            if(id==this.state.recipes[i].recipeId)
+            {
+                name=this.state.recipes[i].name;
+            }
+        }
+        return name;
+    }
     //makes the html for one row
     buildTableRow(batchObj){
         let batchId=batchObj.batchId;
-        let recipeName=batchObj.recipeId;
+        let recipeName= this.getRecipeName(batchObj.recipeId);
         let styleName=""
         let recipeVersion="";
         let batchABV=batchObj.abv;
