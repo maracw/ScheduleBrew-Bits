@@ -51,49 +51,26 @@ class SchedulePage {
       /* call these methods to set up the page*/
   
       this.bindAllMethods();
-      //this.FindAllStyles();
+      //nested fetch - version that isn't broken
       this.FindAllRecipes();
       //this.FillStylesArray();
       //this.FindAllBatches();  
     }
-    //end of constructor
 
-      //set up binding for all methods - very important step!
-      //in other labs binding a method to an event handler happened in one line
-      //with so many methods and buttons, it makes sense to have
-      //the actions put into separate methods
-  
-    // any method that is used as part of an event handler must bind this to the class
-    // not all of these methods need to be bound but it was easier to do them all as I wrote them
     bindAllMethods() {
-      this.FindAllBatches = this.FindAllBatches.bind(this);
+     
       this.buildTableRow=this.buildTableRow.bind(this);
       this.fillTable=this.fillTable.bind(this);
       this.FindAllRecipes=this.FindAllRecipes.bind(this);
-      this.FindAllStyles=this.FindAllStyles.bind(this);
+     
       //these work with the arrays in state
       this.getRecipeIndex=this.getRecipeIndex.bind(this);
-      this.getStyleName=this.getStyleName.bind(this);
-      this.getRecipeVersion=this.getRecipeVersion.bind(this);
-      this.FindRecipeById=this.FindRecipeById.bind(this);
-      this.FillStylesArray=this.FillStylesArray.bind(this);
+      this.getStyleIndex=this.getStyleIndex.bind(this);
+
     }
 
 
-    FillStylesArray(){
-        for(let i=0; i<this.state.recipes.length; i++)
-        {
-            let sId = this.state.recipes[i].styleId;
-            fetch(this.styleURL+'/id/'+sId)
-                .then(response => response.json())
-                .then(data => { 
-                 this.state.styles.push(data); 
-                })
-            .catch(error => {
-            alert('There was a problem getting the indiv style info!'); 
-        });
-        }
-    }
+
 
     //try just getting all the recipes first
     FindAllRecipes(){
@@ -138,49 +115,10 @@ class SchedulePage {
             });//end of catch for get all recipes
     }
 
-    FindAllStyles(){
-        fetch(this.styleURL)
-        .then(response => response.json())
-        .then(data => { 
-            this.state.styles = data;
-        })
-        .catch(error => {
-          alert('There was a problem getting the styles info!'); 
-        });
-    }
-    //manually add a recipe obj to the batch obj in the batch array
-    FindRecipeById(rId, rObj){
-        fetch(this.recipeURL+'/id/'+rId)
-        .then(response => response.json())
-        .then(data => { 
-            rObj.push(data);
-            return rObj;
-        })
-        .catch(error => {
-          alert('There was a problem getting the indiv recipe info!'); 
-        });
-    }
-    FindStyleById(){
 
-
-    }
-    //calls get and returns all batches
-    //call on page load
-    FindAllBatches() {
-        fetch(this.batchURL)
-        .then(response => response.json())
-        .then(data => { 
-            this.state.batches = data;
-            console.log(this.state.batches);
-            //const html=this.buildTableRow(this.state.batches[0]);
-            //this.$tableBody.innerHTML=html;
-            //this.fillTable();
-        })
-        .catch(error => {
-          alert('There was a problem getting the batches info!'); 
-        });
-      }
-      getStyleIndex(sId){
+    
+    
+    FindStyleIndex(sId){
         let index=-1;
         for (let i=0; i<this.state.styles.length; i++)
         {   
@@ -192,6 +130,8 @@ class SchedulePage {
         }
         return index;
     }
+
+    
     getRecipeIndex(id){
         let index=-1;
         for (let i=0; i<this.state.recipes.length; i++)
